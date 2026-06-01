@@ -95,6 +95,34 @@ function History() {
 
             </pre>
 
+            {Array.isArray(item.chatHistory) && item.chatHistory.length > 0 && (
+
+              <div style={{ marginTop: 16 }}>
+
+                <h3>Chat History</h3>
+
+                {item.chatHistory.map((chat, idx) => (
+
+                  <div key={idx} style={{ marginTop: 12, padding: 12, border: '1px solid #eee', borderRadius: 10 }}>
+
+                    <strong>Q:</strong> {chat.question}
+
+                    <div style={{ marginTop: 8 }}>
+
+                      <strong>A:</strong>
+
+                      <div>{chat.answer}</div>
+
+                    </div>
+
+                  </div>
+
+                ))}
+
+              </div>
+
+            )}
+
           </div>
 
         ))

@@ -29,6 +29,10 @@ function Upload() {
   const [chatResponse, setChatResponse] =
     useState("");
 
+  // Used only for rendering the running chat (prevents UI jumping/disappearing).
+  const [chatAnswerList, setChatAnswerList] =
+    useState([]);
+
   const handleImageChange = (e) => {
 
     const file = e.target.files[0];
@@ -157,6 +161,7 @@ function Upload() {
       // Keep chat UI visible for multiple questions.
       // Store latest answer and also append to history.
       setChatResponse(response.data.answer);
+      setChatAnswerList((prev) => [...prev, { question, answer: response.data.answer }]);
       setChatHistory((prev) => [
         ...prev,
         { question, answer: response.data.answer },
