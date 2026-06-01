@@ -314,21 +314,33 @@ function Upload() {
                 Ask AI
               </button>
 
-              {
+              {chatAnswerList.length > 0 && (
 
-                chatResponse && (
+                <div style={{ marginTop: "15px" }}>
 
-                  <pre
-                    style={{
-                      marginTop: "15px",
-                    }}
-                  >
-                    {chatResponse}
-                  </pre>
+                  {chatAnswerList.map((item, idx) => (
 
-                )
+                    <div key={idx} style={{ marginBottom: 14 }}>
 
-              }
+                      <div>
+
+                        <strong>Q:</strong> {item.question}
+
+                      </div>
+
+                      <pre style={{ marginTop: 8, whiteSpace: "pre-wrap" }}>
+
+                        {item.answer}
+
+                      </pre>
+
+                    </div>
+
+                  ))}
+
+                </div>
+
+              )}
 
             </div>
 
