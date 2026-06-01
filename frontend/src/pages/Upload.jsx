@@ -17,6 +17,9 @@ function Upload() {
   const [aiResult, setAiResult] =
     useState("");
 
+  const [wasteId, setWasteId] =
+    useState("");
+
   const [question, setQuestion] =
     useState("");
 
@@ -49,6 +52,18 @@ function Upload() {
 
     }
 
+    const token =
+  localStorage.getItem("token");
+
+console.log(
+  "Stored Token:",
+  token
+);
+    if (!token) {
+      alert("Unauthorized: please login again");
+      return;
+    }
+
     const formData = new FormData();
 
     formData.append(
@@ -58,20 +73,16 @@ function Upload() {
 
     try {
 
-      const token =
-        localStorage.getItem("token");
+      const token = localStorage.getItem("token");
 
       const response = await axios.post(
-
-         `${import.meta.env.VITE_API_URL}/api/waste/upload`,
+        `${import.meta.env.VITE_API_URL}/api/waste/upload`,
         formData,
-
         {
           headers: {
-            Authorization: token,
+            Authorization: `Bearer ${token}`,
           },
         }
-
       );
 
       setMessage(
@@ -82,23 +93,30 @@ function Upload() {
         response.data.data.aiResult
       );
 
-    }
-
-    catch (error) {
-
-      console.log(error);
-
-      setMessage(
-
-        error.response?.data?.message ||
-
-        error.response?.data?.error ||
-
-        "Upload Failed"
-
+      setWasteId(
+        response.data.data._id
       );
 
     }
+
+   catch (error) {
+
+  console.log(
+    "UPLOAD ERROR:",
+    error.response?.data
+  );
+
+  setMessage(
+
+    error.response?.data?.message ||
+
+    error.response?.data?.error ||
+
+    "Upload Failed"
+
+  );
+
+}
 
   };
 
@@ -111,27 +129,32 @@ function Upload() {
       const token =
         localStorage.getItem("token");
 
+      if (!aiResult) {
+        alert("Upload an image first");
+        return;
+      }
+
+      // wasteId is returned by upload endpoint; since this component didn't store it,
+      // we re-fetch it by asking the backend? Not available.
+      // Quick fix: store wasteId on upload.
+
+      if (!wasteId) {
+        alert("Please click Analyze Waste first.");
+        return;
+      }
+
       const response =
         await axios.post(
-
-           `${import.meta.env.VITE_API_URL}/api/waste/upload`,
-
+          `${import.meta.env.VITE_API_URL}/api/waste/chat`,
           {
-
-            wasteInfo: aiResult,
-
+            wasteId,
             question,
-
           },
-
           {
-
             headers: {
-              Authorization: token,
+              Authorization: `Bearer ${token}`,
             },
-
           }
-
         );
 
       setChatResponse(

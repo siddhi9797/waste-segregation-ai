@@ -21,15 +21,12 @@ function History() {
 
       const response =
         await axios.get(
-
-          "http://localhost:5000/api/waste/history",
-
+          `${import.meta.env.VITE_API_URL}/api/waste/history`,
           {
             headers: {
-              Authorization: token,
+              Authorization: `Bearer ${token}`,
             },
           }
-
         );
 
       setHistory(
@@ -83,7 +80,8 @@ function History() {
 
             <img
 
-              src={`http://localhost:5000/${item.imageUrl}`}
+              src={`${import.meta.env.VITE_API_URL}/${item.imageUrl}`}
+
 
               alt="waste"
 
