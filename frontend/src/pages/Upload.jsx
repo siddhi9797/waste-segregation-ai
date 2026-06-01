@@ -23,6 +23,9 @@ function Upload() {
   const [question, setQuestion] =
     useState("");
 
+  const [chatHistory, setChatHistory] =
+    useState([]);
+
   const [chatResponse, setChatResponse] =
     useState("");
 
@@ -52,13 +55,7 @@ function Upload() {
 
     }
 
-    const token =
-  localStorage.getItem("token");
-
-console.log(
-  "Stored Token:",
-  token
-);
+    const token = localStorage.getItem("token");
     if (!token) {
       alert("Unauthorized: please login again");
       return;
@@ -157,9 +154,13 @@ console.log(
           }
         );
 
-      setChatResponse(
-        response.data.answer
-      );
+      // Keep chat UI visible for multiple questions.
+      // Store latest answer and also append to history.
+      setChatResponse(response.data.answer);
+      setChatHistory((prev) => [
+        ...prev,
+        { question, answer: response.data.answer },
+      ]);
 
     }
 
