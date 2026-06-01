@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+import "../styles/history.css";
+
 function History() {
+
   const [history, setHistory] = useState([]);
 
   // Continue panel state (per waste item + per chat question)
@@ -95,8 +98,11 @@ function History() {
   };
 
   return (
-    <div style={{ padding: "40px" }}>
-      <h1>Upload History</h1>
+    <div className="history-page">
+      <div className="history-header">
+        <h1 className="history-title">Upload History</h1>
+        <p className="history-subtitle">View your past waste analyses and continue the AI chat anytime.</p>
+      </div>
 
       {history.map((item) => (
         <div
@@ -140,32 +146,30 @@ function History() {
                   <div style={{ marginTop: 12 }}>
                     <button
                       type="button"
+                      className="continue-btn"
                       onClick={() =>
                         handleOpenContinue({
                           wasteId: item._id,
                           chatIdx: idx,
                         })
                       }
-                      style={{
-                        cursor: "pointer",
-                        padding: "8px 12px",
-                        borderRadius: 8,
-                        border: "1px solid #ccc",
-                        background: "#fff",
-                      }}
                     >
                       Continue
                     </button>
                   </div>
 
+
                   {continuePanel &&
                     continuePanel.wasteId === item._id &&
                     continuePanel.chatIdx === idx && (
-                      <div style={{ marginTop: 12 }}>
-                        <h4 style={{ margin: "8px 0" }}>Ask AI</h4>
+                      <div className="continue-panel">
+                        <h4>Ask AI</h4>
+
 
                         <textarea
+                          className="continue-textarea"
                           value={continueQuestion}
+
                           onChange={(e) => setContinueQuestion(e.target.value)}
                           placeholder="Type your follow-up..."
                           rows={3}

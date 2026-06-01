@@ -21,3 +21,6 @@ button {
   cursor: pointer;
   font-family: 'Poppins', sans-serif;
 }
+
+@import "./theme.css";
+

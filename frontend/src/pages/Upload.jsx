@@ -183,11 +183,12 @@ function Upload() {
 
     <div className="upload-page">
 
-      <div className="upload-container">
+        <div className="upload-container glass">
 
         <h1>
           Upload Waste Image
         </h1>
+
 
         <p>
           Upload waste image for
