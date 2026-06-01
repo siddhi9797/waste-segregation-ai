@@ -63,8 +63,7 @@ function Upload() {
 
       const response = await axios.post(
 
-        "http://localhost:5000/api/waste/upload",
-
+         `${import.meta.env.VITE_API_URL}/api/waste/upload`,
         formData,
 
         {
@@ -115,7 +114,7 @@ function Upload() {
       const response =
         await axios.post(
 
-          "http://localhost:5000/api/waste/chat",
+           `${import.meta.env.VITE_API_URL}/api/waste/upload`,
 
           {
 
