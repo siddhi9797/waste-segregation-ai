@@ -121,7 +121,7 @@ return (
           src={
             item.imageUrl?.startsWith("http")
               ? item.imageUrl
-              : `${import.meta.env.VITE_API_URL}/uploads/${String(item.imageUrl).replace(/^uploads\//, "")}`
+              : `${import.meta.env.VITE_API_URL}/uploads/${item.imageUrl}`
           }
           alt="waste"
         />

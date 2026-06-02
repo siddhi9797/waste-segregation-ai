@@ -123,7 +123,7 @@ Be concise and accurate.
 
         userId: req.user.id,
 
-        imageUrl: imagePath,
+        imageUrl: req.file.filename,
 
         aiResult: aiText,
 

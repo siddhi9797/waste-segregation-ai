@@ -1,10 +1,7 @@
-# TODO - Continue button on History chat
+# TODO
 
-- [x] Gather understanding of current History UI and existing chat flow
-- [x] Update `frontend/src/pages/History.jsx` to add a per-question **Continue** button
-- [x] On clicking **Continue**, render an **Ask AI** mini-chat (textarea/input + Ask AI button)
-- [x] Wire the mini-chat to existing backend `/api/waste/chat` using the selected `wasteId`
-- [x] Update UI to display new AI answers and keep them inside the selected chat thread
-- [ ] Make the History UI more attractive (boxes, gradients, better buttons, spacing)
-- [ ] Run frontend lint/build (if possible) or quick dev check
+- [ ] Fix backend `server.js` so it is an Express app entrypoint (has `app = express()`, mounts routes, listens on `PORT`).
+- [ ] Move current router code into a routes file (e.g., `routes/wasteRoutes.js`) if needed.
+- [ ] Ensure `backend/package.json` `start` points to the correct entrypoint.
+- [ ] Run `npm run dev` (or `npm start`) inside `backend` and verify `/api/auth/*` and `/api/waste/*` endpoints.
 
