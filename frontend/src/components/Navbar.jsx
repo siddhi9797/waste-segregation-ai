@@ -30,7 +30,6 @@ function Navbar() {
 
         <Link to="/upload">Upload</Link>
 
-        <Link to="/dashboard">Dashboard</Link>
 
         <Link to="/history">History</Link>
 

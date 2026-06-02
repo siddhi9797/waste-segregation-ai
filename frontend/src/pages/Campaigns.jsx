@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import "../styles/campaigns.css";
+import "../styles/compaign.css";
 
 function Campaigns() {
   const [campaigns, setCampaigns] = useState([]);
@@ -27,7 +27,8 @@ function Campaigns() {
   if (loading) {
     return (
       <div className="campaign-loading">
-        Loading Campaigns...
+        <div className="loader"></div>
+        <h2>Loading Campaigns...</h2>
       </div>
     );
   }
@@ -36,13 +37,20 @@ function Campaigns() {
     <div className="campaigns-page">
 
       <div className="campaigns-hero">
-        <h1>🌍 Live Waste Campaigns</h1>
+
+        <span className="hero-badge">
+          ♻ Environmental Awareness
+        </span>
+
+        <h1>Live Waste Campaigns</h1>
 
         <p>
-          Stay updated with environmental initiatives,
-          recycling drives, sustainability campaigns,
-          and waste management awareness programs.
+          Discover environmental initiatives,
+          recycling programs, cleanup drives,
+          and sustainability campaigns happening
+          around the world.
         </p>
+
       </div>
 
       <div className="campaigns-grid">
@@ -54,11 +62,20 @@ function Campaigns() {
             key={index}
           >
 
-            <div className="campaign-date">
-              {campaign.pubDate &&
-                new Date(
-                  campaign.pubDate
-                ).toLocaleDateString()}
+            <div className="campaign-card-top">
+
+              <div className="campaign-date">
+                📅{" "}
+                {campaign.pubDate &&
+                  new Date(
+                    campaign.pubDate
+                  ).toLocaleDateString()}
+              </div>
+
+              <div className="campaign-tag">
+                🌱 Environment
+              </div>
+
             </div>
 
             <h2>
@@ -69,14 +86,18 @@ function Campaigns() {
               {campaign.description}
             </p>
 
-            <a
-              href={campaign.link}
-              target="_blank"
-              rel="noreferrer"
-              className="campaign-btn"
-            >
-              Learn More →
-            </a>
+            <div className="campaign-footer">
+
+              <a
+                href={campaign.link}
+                target="_blank"
+                rel="noreferrer"
+                className="campaign-btn"
+              >
+                Read More →
+              </a>
+
+            </div>
 
           </div>
 

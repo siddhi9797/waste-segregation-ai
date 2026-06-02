@@ -1,101 +1,216 @@
 .campaigns-page {
   min-height: 100vh;
-  padding: 40px;
-  background: #f4f8f4;
+  padding: 50px 7%;
+  background: linear-gradient(
+    180deg,
+    #f6fbf7 0%,
+    #eef7f0 100%
+  );
 }
+
+/* Hero Section */
 
 .campaigns-hero {
   text-align: center;
   margin-bottom: 50px;
 }
 
+.hero-badge {
+  display: inline-block;
+  background: #d8f3dc;
+  color: #1b4332;
+  padding: 8px 18px;
+  border-radius: 30px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 18px;
+}
+
 .campaigns-hero h1 {
   font-size: 3rem;
   color: #1b4332;
   margin-bottom: 15px;
+  font-weight: 800;
 }
 
 .campaigns-hero p {
   max-width: 700px;
   margin: auto;
-  color: #555;
-  line-height: 1.7;
+  color: #5b5b5b;
+  line-height: 1.8;
   font-size: 1.05rem;
 }
+
+/* Grid */
 
 .campaigns-grid {
   display: grid;
   grid-template-columns:
-    repeat(auto-fit, minmax(350px, 1fr));
-  gap: 30px;
+    repeat(auto-fit, minmax(360px, 1fr));
+  gap: 28px;
 }
 
+/* Card */
+
 .campaign-card {
+  position: relative;
   background: white;
-  border-radius: 20px;
-  padding: 25px;
+  border-radius: 24px;
+  padding: 28px;
+  overflow: hidden;
+
+  border: 1px solid #edf1ee;
+
   box-shadow:
-    0 10px 30px rgba(0,0,0,0.08);
+    0 10px 30px rgba(
+      0,
+      0,
+      0,
+      0.06
+    );
 
   transition: all 0.3s ease;
+
   display: flex;
   flex-direction: column;
 }
 
+.campaign-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+
+  background: linear-gradient(
+    90deg,
+    #2d6a4f,
+    #52b788
+  );
+}
+
 .campaign-card:hover {
   transform: translateY(-8px);
+
   box-shadow:
-    0 15px 35px rgba(0,0,0,0.12);
+    0 18px 40px rgba(
+      0,
+      0,
+      0,
+      0.12
+    );
+}
+
+.campaign-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
 }
 
 .campaign-date {
-  display: inline-block;
-  width: fit-content;
-  padding: 6px 12px;
-  border-radius: 50px;
-  background: #d8f3dc;
+  background: #e9f7ec;
   color: #1b4332;
-  font-size: 0.85rem;
+
+  padding: 8px 14px;
+  border-radius: 20px;
+
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.campaign-tag {
+  background: #f4f4f4;
+  color: #555;
+
+  padding: 8px 14px;
+  border-radius: 20px;
+
+  font-size: 0.8rem;
   font-weight: 600;
-  margin-bottom: 15px;
 }
 
 .campaign-card h2 {
   color: #1b4332;
-  font-size: 1.3rem;
-  line-height: 1.4;
-  margin-bottom: 15px;
+
+  font-size: 1.35rem;
+  line-height: 1.5;
+
+  margin-bottom: 14px;
+
+  min-height: 90px;
 }
 
 .campaign-card p {
-  color: #555;
-  line-height: 1.7;
-  margin-bottom: 20px;
+  color: #666;
+
+  line-height: 1.8;
+
   flex: 1;
+
+  margin-bottom: 25px;
+}
+
+/* Footer */
+
+.campaign-footer {
+  display: flex;
+  justify-content: flex-end;
 }
 
 .campaign-btn {
   text-decoration: none;
+
   background: #2d6a4f;
   color: white;
+
   padding: 12px 20px;
-  border-radius: 10px;
-  width: fit-content;
+
+  border-radius: 12px;
+
   font-weight: 600;
-  transition: 0.3s;
+
+  transition: all 0.3s ease;
 }
 
 .campaign-btn:hover {
   background: #1b4332;
+  transform: scale(1.05);
 }
 
+/* Loading */
+
 .campaign-loading {
-  height: 100vh;
+  min-height: 100vh;
+
   display: flex;
-  align-items: center;
+  flex-direction: column;
+
   justify-content: center;
-  font-size: 1.3rem;
+  align-items: center;
+
+  gap: 15px;
+
   color: #1b4332;
+}
+
+.loader {
+  width: 45px;
+  height: 45px;
+
+  border: 4px solid #d8f3dc;
+  border-top: 4px solid #2d6a4f;
+
+  border-radius: 50%;
+
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* Mobile */
@@ -103,7 +218,7 @@
 @media (max-width: 768px) {
 
   .campaigns-page {
-    padding: 20px;
+    padding: 25px;
   }
 
   .campaigns-hero h1 {
@@ -115,7 +230,18 @@
   }
 
   .campaign-card {
-    padding: 20px;
+    padding: 22px;
+  }
+
+  .campaign-card h2 {
+    min-height: auto;
+    font-size: 1.15rem;
+  }
+
+  .campaign-card-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
   }
 
 }
