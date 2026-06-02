@@ -31,6 +31,11 @@ app.use(
   require("./routes/wasteRoutes")
 );
 
+app.use(
+  "/api/campaigns",
+  require("./routes/campaignRoutes")
+);
+
 // Test route
 app.get("/", (req, res) => {
   res.send("Waste Management API Running");

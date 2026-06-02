@@ -34,7 +34,9 @@ function Navbar() {
 
         <Link to="/history">History</Link>
 
-        <Link to="/education">Learn</Link>
+        <Link to="/campaigns">
+  Campaigns
+</Link>
 
         {
 
