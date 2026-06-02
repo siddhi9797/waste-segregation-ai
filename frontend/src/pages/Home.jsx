@@ -14,7 +14,14 @@ function Home() {
           in seconds.
         </p>
 
-        <button type="button">Start Scanning</button>
+        <button
+          type="button"
+          onClick={() => {
+            window.location.href = "/upload";
+          }}
+        >
+          Start Scanning
+        </button>
       </div>
     </div>
   );
