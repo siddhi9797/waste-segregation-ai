@@ -8,6 +8,7 @@ import Dashboard from "./pages/Dashboard";
 import History from "./pages/History";
 import Education from "./pages/Education";
 import Login from "./pages/Login";
+import Campaigns from "./pages/Campaigns";
 
 function App() {
   return (
