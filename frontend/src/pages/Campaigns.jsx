@@ -6,9 +6,6 @@ function Campaigns() {
   const [campaigns, setCampaigns] =
     useState([]);
 
-  const [loading, setLoading] =
-    useState(true);
-
   useEffect(() => {
     fetchCampaigns();
   }, []);
@@ -31,16 +28,9 @@ function Campaigns() {
 
         console.log(error);
 
-      } finally {
-
-        setLoading(false);
-
       }
-    };
 
-  if (loading) {
-    return <h2>Loading Campaigns...</h2>;
-  }
+    };
 
   return (
     <div className="campaign-page">
@@ -57,24 +47,21 @@ function Campaigns() {
             className="campaign-card"
           >
 
-            <h2>
+            <h3>
               {campaign.title}
-            </h2>
+            </h3>
 
             <p>
               {campaign.description}
             </p>
 
-            <button
-              onClick={() =>
-                window.open(
-                  campaign.link,
-                  "_blank"
-                )
-              }
+            <a
+              href={campaign.link}
+              target="_blank"
+              rel="noreferrer"
             >
-              Participate
-            </button>
+              Participate →
+            </a>
 
           </div>
 
