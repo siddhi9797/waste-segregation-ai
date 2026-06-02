@@ -4,7 +4,7 @@ const NodeCache = require("node-cache");
 const parser = new Parser();
 
 const cache = new NodeCache({
-  stdTTL: 3600, // 1 hour
+  stdTTL: 3600,
 });
 
 const getCampaigns = async (req, res) => {
@@ -27,25 +27,41 @@ const getCampaigns = async (req, res) => {
         const feed = await parser.parseURL(feedUrl);
 
         const items = feed.items.map((item) => ({
-          title: item.title,
-          description:
+          title: item.title || "Untitled",
+
+          description: (
             item.contentSnippet ||
-            item.content ||
             item.summary ||
-            "",
+            item.content ||
+            "No description available"
+          )
+            .replace(/<[^>]*>/g, "")
+            .replace(/\s+/g, " ")
+            .trim()
+            .substring(0, 250),
+
           link: item.link,
-          pubDate: item.pubDate,
+
+          pubDate: item.pubDate
+            ? new Date(item.pubDate)
+            : new Date(),
         }));
 
         campaigns.push(...items);
       } catch (err) {
         console.log(
-          `Failed feed: ${feedUrl}`
+          `Failed to fetch ${feedUrl}:`,
+          err.message
         );
       }
     }
 
     campaigns = campaigns
+      .filter(
+        (item) =>
+          item.title &&
+          item.description
+      )
       .sort(
         (a, b) =>
           new Date(b.pubDate) -
@@ -64,8 +80,7 @@ const getCampaigns = async (req, res) => {
     console.log(error);
 
     res.status(500).json({
-      message:
-        "Failed to fetch campaigns",
+      message: "Failed to fetch campaigns",
     });
   }
 };

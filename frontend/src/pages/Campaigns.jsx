@@ -2,72 +2,61 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 function Campaigns() {
-
-  const [campaigns, setCampaigns] =
-    useState([]);
+  const [campaigns, setCampaigns] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchCampaigns();
   }, []);
 
-  const fetchCampaigns =
-    async () => {
+  const fetchCampaigns = async () => {
+    try {
+      const res = await axios.get(
+        "https://waste-segregation-ai-w6he.onrender.com/api/campaigns"
+      );
 
-      try {
+      setCampaigns(res.data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-        const response =
-          await axios.get(
-            `${import.meta.env.VITE_API_URL}/api/campaigns`
-          );
-
-        setCampaigns(
-          response.data
-        );
-
-      } catch (error) {
-
-        console.log(error);
-
-      }
-
-    };
+  if (loading) {
+    return <h2>Loading Campaigns...</h2>;
+  }
 
   return (
-    <div className="campaign-page">
+    <div className="campaigns-container">
+      <h1>Live Waste Campaigns</h1>
 
-      <h1>
-        Live Waste Campaigns
-      </h1>
+      {campaigns.length === 0 ? (
+        <p>No campaigns found.</p>
+      ) : (
+        campaigns.map((campaign, index) => (
+          <div className="campaign-card" key={index}>
+            <h2>{campaign.title}</h2>
 
-      {campaigns.map(
-        (campaign, index) => (
+            <p>{campaign.description}</p>
 
-          <div
-            key={index}
-            className="campaign-card"
-          >
+            <small>
+              {campaign.pubDate &&
+                new Date(campaign.pubDate).toLocaleDateString()}
+            </small>
 
-            <h3>
-              {campaign.title}
-            </h3>
-
-            <p>
-              {campaign.description}
-            </p>
+            <br />
 
             <a
               href={campaign.link}
               target="_blank"
               rel="noreferrer"
             >
-              Participate →
+              Read More
             </a>
-
           </div>
-
-        )
+        ))
       )}
-
     </div>
   );
 }
