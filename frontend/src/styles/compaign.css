@@ -1,28 +1,121 @@
-
-.campaign-page {
+.campaigns-page {
+  min-height: 100vh;
   padding: 40px;
+  background: #f4f8f4;
 }
 
-.campaign-page h1 {
+.campaigns-hero {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 50px;
+}
+
+.campaigns-hero h1 {
+  font-size: 3rem;
+  color: #1b4332;
+  margin-bottom: 15px;
+}
+
+.campaigns-hero p {
+  max-width: 700px;
+  margin: auto;
+  color: #555;
+  line-height: 1.7;
+  font-size: 1.05rem;
+}
+
+.campaigns-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(auto-fit, minmax(350px, 1fr));
+  gap: 30px;
 }
 
 .campaign-card {
   background: white;
-  border-radius: 12px;
-  padding: 20px;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 12px rgba(0,0,0,.08);
+  border-radius: 20px;
+  padding: 25px;
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.08);
+
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
 }
 
-.campaign-card h3 {
-  margin-bottom: 10px;
+.campaign-card:hover {
+  transform: translateY(-8px);
+  box-shadow:
+    0 15px 35px rgba(0,0,0,0.12);
 }
 
-.campaign-card a {
+.campaign-date {
   display: inline-block;
-  margin-top: 10px;
+  width: fit-content;
+  padding: 6px 12px;
+  border-radius: 50px;
+  background: #d8f3dc;
+  color: #1b4332;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.campaign-card h2 {
+  color: #1b4332;
+  font-size: 1.3rem;
+  line-height: 1.4;
+  margin-bottom: 15px;
+}
+
+.campaign-card p {
+  color: #555;
+  line-height: 1.7;
+  margin-bottom: 20px;
+  flex: 1;
+}
+
+.campaign-btn {
   text-decoration: none;
-  font-weight: bold;
+  background: #2d6a4f;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 10px;
+  width: fit-content;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.campaign-btn:hover {
+  background: #1b4332;
+}
+
+.campaign-loading {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  color: #1b4332;
+}
+
+/* Mobile */
+
+@media (max-width: 768px) {
+
+  .campaigns-page {
+    padding: 20px;
+  }
+
+  .campaigns-hero h1 {
+    font-size: 2rem;
+  }
+
+  .campaigns-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .campaign-card {
+    padding: 20px;
+  }
+
 }

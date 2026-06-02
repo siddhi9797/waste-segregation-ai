@@ -15,10 +15,11 @@ const getCampaigns = async (req, res) => {
       return res.json(cachedData);
     }
 
-    const feeds = [
-      "https://www.unep.org/rss.xml",
-      "https://wwf.panda.org/rss/news/",
-    ];
+const feeds = [
+  "https://news.google.com/rss/search?q=waste+management+India",
+  "https://news.google.com/rss/search?q=recycling+campaign+India",
+  "https://news.google.com/rss/search?q=plastic+waste+cleanup+India",
+];
 
     let campaigns = [];
 

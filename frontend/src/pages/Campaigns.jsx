@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import "../styles/campaigns.css";
 
 function Campaigns() {
   const [campaigns, setCampaigns] = useState([]);
@@ -24,39 +25,65 @@ function Campaigns() {
   };
 
   if (loading) {
-    return <h2>Loading Campaigns...</h2>;
+    return (
+      <div className="campaign-loading">
+        Loading Campaigns...
+      </div>
+    );
   }
 
   return (
-    <div className="campaigns-container">
-      <h1>Live Waste Campaigns</h1>
+    <div className="campaigns-page">
 
-      {campaigns.length === 0 ? (
-        <p>No campaigns found.</p>
-      ) : (
-        campaigns.map((campaign, index) => (
-          <div className="campaign-card" key={index}>
-            <h2>{campaign.title}</h2>
+      <div className="campaigns-hero">
+        <h1>🌍 Live Waste Campaigns</h1>
 
-            <p>{campaign.description}</p>
+        <p>
+          Stay updated with environmental initiatives,
+          recycling drives, sustainability campaigns,
+          and waste management awareness programs.
+        </p>
+      </div>
 
-            <small>
+      <div className="campaigns-grid">
+
+        {campaigns.map((campaign, index) => (
+
+          <div
+            className="campaign-card"
+            key={index}
+          >
+
+            <div className="campaign-date">
               {campaign.pubDate &&
-                new Date(campaign.pubDate).toLocaleDateString()}
-            </small>
+                new Date(
+                  campaign.pubDate
+                ).toLocaleDateString()}
+            </div>
 
-            <br />
+            <h2>
+              {campaign.title}
+            </h2>
+
+            <p>
+              {campaign.description}
+            </p>
 
             <a
               href={campaign.link}
               target="_blank"
               rel="noreferrer"
+              className="campaign-btn"
             >
-              Read More
+              Learn More →
             </a>
+
           </div>
-        ))
-      )}
+
+        ))}
+
+      </div>
+
     </div>
   );
 }
