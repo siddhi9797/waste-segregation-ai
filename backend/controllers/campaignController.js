@@ -1,71 +1,73 @@
-const axios = require("axios");
+const Parser = require("rss-parser");
 const NodeCache = require("node-cache");
 
+const parser = new Parser();
+
 const cache = new NodeCache({
-  stdTTL: 21600, // 6 hours
+  stdTTL: 3600, // 1 hour
 });
 
 const getCampaigns = async (req, res) => {
   try {
-
-    const cachedData =
-      cache.get("campaigns");
+    const cachedData = cache.get("campaigns");
 
     if (cachedData) {
-      return res.status(200).json(
-        cachedData
-      );
+      return res.json(cachedData);
     }
 
-    const searchQuery =
-      "waste management campaigns India OR recycling drive India OR environmental cleanup campaigns";
+    const feeds = [
+      "https://www.unep.org/rss.xml",
+      "https://wwf.panda.org/rss/news/",
+    ];
 
-    const response =
-      await axios.get(
-        "https://www.googleapis.com/customsearch/v1",
-        {
-          params: {
-            key:
-              process.env.GOOGLE_API_KEY,
-            cx:
-              process.env.GOOGLE_SEARCH_ENGINE_ID,
-            q: searchQuery,
-            num: 10,
-          },
-        }
-      );
+    let campaigns = [];
 
-    const campaigns =
-      response.data.items?.map(
-        (item) => ({
+    for (const feedUrl of feeds) {
+      try {
+        const feed = await parser.parseURL(feedUrl);
+
+        const items = feed.items.map((item) => ({
           title: item.title,
           description:
-            item.snippet,
+            item.contentSnippet ||
+            item.content ||
+            item.summary ||
+            "",
           link: item.link,
-        })
-      ) || [];
+          pubDate: item.pubDate,
+        }));
+
+        campaigns.push(...items);
+      } catch (err) {
+        console.log(
+          `Failed feed: ${feedUrl}`
+        );
+      }
+    }
+
+    campaigns = campaigns
+      .sort(
+        (a, b) =>
+          new Date(b.pubDate) -
+          new Date(a.pubDate)
+      )
+      .slice(0, 20);
 
     cache.set(
       "campaigns",
       campaigns
     );
 
-    res.status(200).json(
-      campaigns
-    );
+    res.json(campaigns);
 
   } catch (error) {
+    console.log(error);
 
-  console.log(
-    "Campaign Error:",
-    error.response?.data || error.message
-  );
-
-  res.status(500).json({
-    error: error.response?.data || error.message,
-  });
-
-}
+    res.status(500).json({
+      message:
+        "Failed to fetch campaigns",
+    });
+  }
 };
 
 module.exports = {

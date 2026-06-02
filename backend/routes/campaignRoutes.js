@@ -1,7 +1,6 @@
 const express = require("express");
 
-const router =
-  express.Router();
+const router = express.Router();
 
 const {
   getCampaigns,
@@ -9,9 +8,6 @@ const {
   "../controllers/campaignController"
 );
 
-router.get(
-  "/",
-  getCampaigns
-);
+router.get("/", getCampaigns);
 
 module.exports = router;
