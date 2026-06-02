@@ -56,14 +56,16 @@ const getCampaigns = async (req, res) => {
 
   } catch (error) {
 
-    console.log(error);
+  console.log(
+    "Campaign Error:",
+    error.response?.data || error.message
+  );
 
-    res.status(500).json({
-      message:
-        "Failed to fetch campaigns",
-    });
+  res.status(500).json({
+    error: error.response?.data || error.message,
+  });
 
-  }
+}
 };
 
 module.exports = {
