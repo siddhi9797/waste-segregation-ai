@@ -1,18 +1,16 @@
 const Waste = require("../models/Waste");
 const axios = require("axios");
 const fs = require("fs");
+const path = require("path");
 
 const uploadWaste = async (req, res) => {
-
   try {
-
     const imagePath = req.file.path;
 
-    const imageBase64 =
-      fs.readFileSync(
-        imagePath,
-        { encoding: "base64" }
-      );
+    const imageBase64 = fs.readFileSync(
+      imagePath,
+      { encoding: "base64" }
+    );
 
     const response = await axios.post(
 
@@ -74,7 +72,6 @@ Environmental Impact: Can be recycled into new plastic products and reduces land
 
 Be concise and accurate.
 `,
-
               },
 
               {
@@ -123,6 +120,7 @@ Be concise and accurate.
 
         userId: req.user.id,
 
+        // Store only filename
         imageUrl: req.file.filename,
 
         aiResult: aiText,
@@ -301,21 +299,32 @@ const getHistory = async (
 
       });
 
-    const path = require("path");
+    const normalizedHistory =
+      history.map((item) => {
 
-    const normalizedHistory = history.map((item) => {
-      if (!item.imageUrl) return item;
+        const obj = item.toObject();
 
-      // stored value might be:
-      // - filename (new)
-      // - uploads/<filename>
-      // - a full/relative path
-      // keep only the basename.
-      item.imageUrl = path.basename(String(item.imageUrl));
-      return item;
-    });
+        if (obj.imageUrl) {
 
-    res.status(200).json(normalizedHistory);
+          // Handles old records:
+          // uploads\file.jpg
+          // uploads/file.jpg
+          // file.jpg
+
+          obj.imageUrl = path.basename(
+            String(obj.imageUrl)
+              .replace(/\\/g, "/")
+          );
+
+        }
+
+        return obj;
+
+      });
+
+    res.status(200).json(
+      normalizedHistory
+    );
 
   }
 

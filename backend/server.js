@@ -15,7 +15,9 @@ app.use(express.json());
 // Serve uploaded images
 app.use(
   "/uploads",
-  express.static(path.join(__dirname, "uploads"))
+  express.static(
+    path.join(__dirname, "uploads")
+  )
 );
 
 // Routes
@@ -29,23 +31,37 @@ app.use(
   require("./routes/wasteRoutes")
 );
 
+// Test route
+app.get("/", (req, res) => {
+  res.send("Waste Management API Running");
+});
+
 // MongoDB Connection
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
+
     console.log("MongoDB Connected");
 
     app.listen(
       process.env.PORT || 5000,
       () => {
+
         console.log(
           `Server running on port ${
             process.env.PORT || 5000
           }`
         );
+
       }
     );
+
   })
   .catch((err) => {
-    console.log(err);
+
+    console.log(
+      "MongoDB Error:",
+      err
+    );
+
   });

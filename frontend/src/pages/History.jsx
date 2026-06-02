@@ -117,14 +117,19 @@ return (
         className="history-item"
       >
 
-        <img
-          src={
-            item.imageUrl?.startsWith("http")
-              ? item.imageUrl
-              : `${import.meta.env.VITE_API_URL}/uploads/${item.imageUrl}`
-          }
-          alt="waste"
-        />
+<img
+  src={
+    item.imageUrl?.startsWith("http")
+      ? item.imageUrl
+      : `${import.meta.env.VITE_API_URL}/uploads/${encodeURIComponent(
+          item.imageUrl
+        )}`
+  }
+  alt="waste"
+  onError={(e) => {
+    console.log("Failed image:", e.target.src);
+  }}
+/>
 
         <div className="history-ai">
           <pre>{item.aiResult}</pre>
