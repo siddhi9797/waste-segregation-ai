@@ -301,9 +301,21 @@ const getHistory = async (
 
       });
 
-    res.status(200).json(
-      history
-    );
+    const path = require("path");
+
+    const normalizedHistory = history.map((item) => {
+      if (!item.imageUrl) return item;
+
+      // stored value might be:
+      // - filename (new)
+      // - uploads/<filename>
+      // - a full/relative path
+      // keep only the basename.
+      item.imageUrl = path.basename(String(item.imageUrl));
+      return item;
+    });
+
+    res.status(200).json(normalizedHistory);
 
   }
 
