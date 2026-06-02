@@ -97,139 +97,148 @@ function History() {
     }
   };
 
-  return (
-    <div className="history-page">
-      <div className="history-header">
-        <h1 className="history-title">Upload History</h1>
-        <p className="history-subtitle">View your past waste analyses and continue the AI chat anytime.</p>
-      </div>
+return (
+  <div className="history-page">
 
-      {history.map((item) => (
-        <div
-          key={item._id}
-          style={{
-            border: "1px solid #ddd",
-            padding: "20px",
-            marginBottom: "20px",
-            borderRadius: "10px",
-          }}
-        >
-          <img
-            src={`${import.meta.env.VITE_API_URL}/${item.imageUrl}`}
-            alt="waste"
-            width="200"
-          />
+    <div className="history-header">
+      <h1 className="history-title">
+        Upload History
+      </h1>
 
+      <p className="history-subtitle">
+        View your past waste analyses and continue the AI chat anytime.
+      </p>
+    </div>
+
+    {history.map((item) => (
+
+      <div
+        key={item._id}
+        className="history-item"
+      >
+
+        <img
+          src={
+            item.imageUrl?.startsWith("http")
+              ? item.imageUrl
+              : `${import.meta.env.VITE_API_URL}/uploads/${String(item.imageUrl).replace(/^uploads\//, "")}`
+          }
+          alt="waste"
+        />
+
+        <div className="history-ai">
           <pre>{item.aiResult}</pre>
+        </div>
 
-          {Array.isArray(item.chatHistory) && item.chatHistory.length > 0 && (
-            <div style={{ marginTop: 16 }}>
-              <h3>Chat History</h3>
+        {Array.isArray(item.chatHistory) &&
+          item.chatHistory.length > 0 && (
+
+            <div>
+
+              <h3>
+                Chat History
+              </h3>
 
               {item.chatHistory.map((chat, idx) => (
+
                 <div
                   key={idx}
-                  style={{
-                    marginTop: 12,
-                    padding: 12,
-                    border: "1px solid #eee",
-                    borderRadius: 10,
-                  }}
+                  className="chat-card"
                 >
-                  <strong>Q:</strong> {chat.question}
 
-                  <div style={{ marginTop: 8 }}>
+                  <div className="chat-q">
+                    <strong>Q:</strong> {chat.question}
+                  </div>
+
+                  <div className="chat-a">
                     <strong>A:</strong>
-                    <div>{chat.answer}</div>
+                    <div>
+                      {chat.answer}
+                    </div>
                   </div>
 
-                  <div style={{ marginTop: 12 }}>
-                    <button
-                      type="button"
-                      className="continue-btn"
-                      onClick={() =>
-                        handleOpenContinue({
-                          wasteId: item._id,
-                          chatIdx: idx,
-                        })
-                      }
-                    >
-                      Continue
-                    </button>
-                  </div>
-
+                  <button
+                    type="button"
+                    className="continue-btn"
+                    onClick={() =>
+                      handleOpenContinue({
+                        wasteId: item._id,
+                        chatIdx: idx,
+                      })
+                    }
+                  >
+                    Continue
+                  </button>
 
                   {continuePanel &&
                     continuePanel.wasteId === item._id &&
                     continuePanel.chatIdx === idx && (
-                      <div className="continue-panel">
-                        <h4>Ask AI</h4>
 
+                      <div className="continue-panel">
+
+                        <h4>
+                          Ask Something More
+                        </h4>
 
                         <textarea
                           className="continue-textarea"
                           value={continueQuestion}
-
-                          onChange={(e) => setContinueQuestion(e.target.value)}
+                          onChange={(e) =>
+                            setContinueQuestion(
+                              e.target.value
+                            )
+                          }
                           placeholder="Type your follow-up..."
                           rows={3}
-                          style={{
-                            width: "100%",
-                            padding: 12,
-                            borderRadius: 10,
-                            border: "1px solid #ddd",
-                            resize: "vertical",
-                          }}
                         />
 
-                        <div
-                          style={{
-                            marginTop: 10,
-                            display: "flex",
-                            gap: 10,
-                            flexWrap: "wrap",
-                          }}
-                        >
+                        <div className="panel-actions">
+
                           <button
                             type="button"
+                            className="ask-btn"
                             disabled={continueLoading}
-                            onClick={() => handleAskContinue(item._id)}
-                            style={{
-                              cursor: continueLoading ? "not-allowed" : "pointer",
-                              padding: "10px 14px",
-                              borderRadius: 10,
-                              border: "1px solid #ccc",
-                              background: "#111827",
-                              color: "white",
-                            }}
+                            onClick={() =>
+                              handleAskContinue(
+                                item._id
+                              )
+                            }
                           >
-                            {continueLoading ? "Asking..." : "Ask AI"}
+                            {continueLoading
+                              ? "Asking..."
+                              : "Give Answer"}
                           </button>
 
                           <button
                             type="button"
-                            onClick={handleCloseContinue}
-                            style={{
-                              cursor: "pointer",
-                              padding: "10px 14px",
-                              borderRadius: 10,
-                              border: "1px solid #ccc",
-                              background: "#fff",
-                            }}
+                            className="close-btn"
+                            onClick={
+                              handleCloseContinue
+                            }
                           >
                             Close
                           </button>
+
                         </div>
+
                       </div>
+
                     )}
+
                 </div>
+
               ))}
+
             </div>
+
           )}
-        </div>
-      ))}
-    </div>
-  );
+
+      </div>
+
+    ))}
+
+  </div>
+);
 }
 
 export default History;

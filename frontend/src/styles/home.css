@@ -1,68 +1,87 @@
-.home {
-  min-height: 100vh;
+.home{
+  min-height:100vh;
+  padding:0 8%;
+
+  display:flex;
+  align-items:center;
+
   background:
-    radial-gradient(circle at top left, #1e293b, #0f172a);
-  padding: 50px 8%;
+  radial-gradient(circle at top left,#1e293b,#020617);
 }
 
-.hero-section {
-  min-height: 85vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+.hero-section{
+  width:100%;
+  text-align:center;
 }
 
-.hero-section h1 {
-  font-size: 72px;
-  line-height: 1.1;
-  max-width: 850px;
-  margin-bottom: 25px;
+.hero-section h1{
+  font-size:78px;
+  font-weight:800;
+  line-height:1.1;
 
-  background: linear-gradient(to right, #38bdf8, #22c55e);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  max-width:1000px;
+  margin:auto;
+
+  background:
+  linear-gradient(
+    to right,
+    #38bdf8,
+    #22c55e,
+    #8b5cf6
+  );
+
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
 }
 
-.hero-section p {
-  max-width: 700px;
-  font-size: 20px;
-  line-height: 1.8;
-  color: #cbd5e1;
-  margin-bottom: 35px;
+.hero-section p{
+  margin:30px auto;
+  max-width:800px;
+
+  font-size:21px;
+  line-height:1.8;
+
+  color:#cbd5e1;
 }
 
-.hero-section button {
-  width: 240px;
-  padding: 16px;
-  border: none;
-  border-radius: 14px;
-  background: linear-gradient(to right, #38bdf8, #22c55e);
-  color: white;
-  font-size: 18px;
-  font-weight: 600;
-  transition: 0.3s;
-  box-shadow: 0px 0px 20px rgba(34,197,94,0.3);
+.hero-section button{
+  border:none;
+  border-radius:16px;
+
+  padding:18px 40px;
+
+  font-size:18px;
+  font-weight:700;
+
+  color:white;
+
+  background:
+  linear-gradient(
+    135deg,
+    #38bdf8,
+    #22c55e
+  );
+
+  transition:.3s;
 }
 
-.hero-section button:hover {
-  transform: translateY(-3px);
-  box-shadow: 0px 0px 30px rgba(56,189,248,0.5);
+.hero-section button:hover{
+  transform:translateY(-4px);
+  box-shadow:
+  0 20px 40px rgba(34,197,94,.25);
 }
 
-/* Mobile */
+@media(max-width:768px){
 
-@media (max-width: 768px) {
+.hero-section h1{
+  font-size:42px;
+}
 
-  .hero-section h1 {
-    font-size: 42px;
-  }
+.hero-section p{
+  font-size:16px;
+}
 
-  .hero-section p {
-    font-size: 16px;
-  }
-
-  .hero-section button {
-    width: 100%;
-  }
-
+.hero-section button{
+  width:100%;
+}
 }

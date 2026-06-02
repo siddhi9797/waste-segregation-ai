@@ -190,10 +190,11 @@ function Upload() {
         </h1>
 
 
-        <p>
-          Upload waste image for
-          AI analysis
-        </p>
+       <p>
+  Upload a waste image and get detailed AI-powered
+  recycling insights, environmental impact analysis,
+  disposal methods, and smart recommendations.
+</p>
 
         <label className="upload-box">
 
@@ -260,7 +261,7 @@ function Upload() {
             <div className="ai-result-card">
 
               <h2>
-                AI Analysis Result
+                 Analysis Result
               </h2>
 
               <pre>
@@ -283,7 +284,7 @@ function Upload() {
             >
 
               <h2>
-                Ask AI About This Waste
+                Ask Something More About This 
               </h2>
 
               <input
@@ -312,8 +313,8 @@ function Upload() {
                 className="upload-btn"
                 onClick={askQuestion}
               >
-                Ask AI
-              </button>
+                Want to ask something more 
+             </button>
 
               {chatAnswerList.length > 0 && (
 
