@@ -1,6 +1,9 @@
 import "../styles/home.css";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
+  const navigate = useNavigate();
+
   return (
     <div className="home">
       <div className="hero-section">
@@ -16,9 +19,7 @@ function Home() {
 
         <button
           type="button"
-          onClick={() => {
-            window.location.href = "/upload";
-          }}
+          onClick={() => navigate("/upload")}
         >
           Start Scanning
         </button>
@@ -28,4 +29,3 @@ function Home() {
 }
 
 export default Home;
-
