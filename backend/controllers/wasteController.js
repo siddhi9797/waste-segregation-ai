@@ -30,7 +30,7 @@ const uploadWaste = async (req, res) => {
       "https://openrouter.ai/api/v1/chat/completions",
       {
         model: "openrouter/free",
-        max_tokens: 300,
+        max_tokens: 800,
         messages: [
           {
             role: "user",
@@ -38,31 +38,47 @@ const uploadWaste = async (req, res) => {
               {
                 type: "text",
                 text: `
-You are a waste segregation expert.
+You are an expert AI waste identification and waste management assistant.
 
-Analyze the uploaded image carefully.
+Analyze the uploaded image carefully and identify the waste item.
 
-1. Determine whether the image contains waste, trash,
-garbage, or recyclable material.
+Return a detailed analysis using the following exact headings:
 
-2. If the image does NOT contain waste, reply EXACTLY:
+1. Waste Type:
+Identify the waste item and its material, if possible.
 
-This is not a waste image.
+2. Recyclability:
+State whether it is Recyclable, Non-Recyclable, or Conditionally Recyclable. Explain why.
 
-Do not provide any additional explanation.
+3. Biodegradability:
+State whether it is Biodegradable, Non-Biodegradable, or Partially Biodegradable. Explain briefly.
 
-3. If the image DOES contain waste, reply ONLY in this format:
+4. Disposal Method:
+Explain how the user should dispose of this waste safely.
 
-Waste Type: <type>
+5. Recycling Method:
+If recyclable, explain the steps involved in recycling it. If it is not recyclable, explain the best alternative disposal method.
 
-Recyclable or Non-Recyclable: <value>
+6. Decomposition Method and Time:
+Explain how the waste decomposes naturally, if applicable. Provide an approximate decomposition time only when a reliable estimate is available. Clearly mention that the time varies depending on environmental conditions. If it does not naturally decompose within a practical timeframe, explain this.
 
-Disposal Method: <method>
+7. Environmental Impact:
+Explain the possible effects on soil, water, air, wildlife, human health, and the environment, as applicable.
 
-Environmental Impact: <impact>
+8. Recommended Action:
+Give the user a simple, practical action to take.
 
-Be concise and accurate. Do not invent details that
-cannot be determined from the image.
+9. Identification Confidence:
+State High, Medium, or Low confidence. If the image is unclear, mention the uncertainty instead of guessing.
+
+Important rules:
+- Use simple, clear English.
+- Give specific information about the item in the image.
+- Do not assume that every plastic, paper, or metal item is recyclable; coatings, contamination, and local facilities can affect recyclability.
+- Do not confuse recyclability with biodegradability.
+- Do not invent facts or exact decomposition times.
+- If the image does not clearly show waste, respond: "This image does not clearly show an identifiable waste item. Please upload a clearer image."
+- Keep the answer organized, informative, and easy to read.
 `,
               },
               {
@@ -141,18 +157,21 @@ const chatWithWaste = async (req, res) => {
         model: "openrouter/free",
         max_tokens: 300,
         messages: [
-          {
-            role: "system",
-            content: `
-You are a waste management expert.
+        {
+  role: "system",
+  content: `
+You are an expert waste identification and waste management assistant.
 
-Original Analysis:
+Original Waste Analysis:
 ${waste.aiResult}
 
-Answer user questions based on this waste analysis.
-Be concise, helpful, and accurate.
-`,
-          },
+Answer the user's question using the original waste analysis.
+Explain recyclability and biodegradability separately.
+Provide practical disposal, recycling, or decomposition guidance when relevant.
+Use simple English and avoid inventing facts.
+If the original analysis does not contain enough information, explain the uncertainty.
+`
+},
           {
             role: "user",
             content: String(question).trim(),
