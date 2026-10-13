@@ -13,10 +13,10 @@ const uploadWaste = async (req, res) => {
     }
 
     if (!process.env.OPENROUTER_API_KEY) {
-      return res.status(500).json({
-        error: "AI API key is not configured on the server",
-      });
-    }
+  return res.status(500).json({
+    message: "AI API key is not configured on the server",
+  });
+}
 
     const imagePath = req.file.path;
 
@@ -155,7 +155,7 @@ const chatWithWaste = async (req, res) => {
       "https://openrouter.ai/api/v1/chat/completions",
       {
         model: "openrouter/free",
-        max_tokens: 300,
+        max_tokens: 800,
         messages: [
         {
   role: "system",
@@ -187,11 +187,33 @@ If the original analysis does not contain enough information, explain the uncert
       }
     );
 
-    const answer = response.data?.choices?.[0]?.message?.content;
+const choice = response.data?.choices?.[0];
+const message = choice?.message;
+let answer = message?.content;
 
-    if (!answer) {
-      throw new Error("AI returned an empty response");
-    }
+// Some models may return content as an array.
+if (Array.isArray(answer)) {
+  answer = answer
+    .map((item) => item.text || "")
+    .filter(Boolean)
+    .join("\n");
+}
+
+if (typeof answer !== "string" || !answer.trim()) {
+  console.error(
+    "OpenRouter chat returned no text:",
+    JSON.stringify({
+      model: response.data?.model,
+      finish_reason: choice?.finish_reason,
+      message: message,
+      usage: response.data?.usage,
+    })
+  );
+
+  throw new Error("AI returned no usable text");
+}
+
+answer = answer.trim();
 
     waste.chatHistory.push({
       question: String(question).trim(),
@@ -203,17 +225,17 @@ If the original analysis does not contain enough information, explain the uncert
     return res.status(200).json({
       answer,
     });
-  } catch (error) {
-    console.error(
-      "Waste chat failed:",
-      error.response?.status,
-      error.response?.data || error.message
-    );
+ } catch (error) {
+  console.error(
+    "Waste chat failed:",
+    error.response?.status || "No HTTP status",
+    error.response?.data || error.message
+  );
 
-    return res.status(500).json({
-      message: "Chat failed",
-    });
-  }
+  return res.status(500).json({
+    message: "Chat failed",
+  });
+}
 };
 
 const getHistory = async (req, res) => {
